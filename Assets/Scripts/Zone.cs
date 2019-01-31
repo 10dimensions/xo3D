@@ -5,7 +5,14 @@ using UnityEngine;
 public class Zone : MonoBehaviour
 {   
     public int ZoneID;
+    private GameObject PlayMgr;
 
+    private bool HasSpawned=false;
+
+    void Start()
+    {
+        PlayMgr = GameObject.FindGameObjectWithTag("PlayMgr");
+    }
     private void OnMouseDown()
     {
         Spawn();
@@ -13,17 +20,16 @@ public class Zone : MonoBehaviour
     private void Spawn()
     {   
         GameObject ToSpawn=null;
+        string _spawntype = PlayMgr.GetComponent<PlayManager>().SpawnType;
 
-        if(Singleton.Instance.SpawnType == "X")
+        if(_spawntype == "X")
         {
-            ToSpawn =  Instantiate (Resources.Load ("XObj")) as GameObject;
-            
+            ToSpawn =  Instantiate (Resources.Load ("XObj")) as GameObject; 
         }
 
-        else if(Singleton.Instance.SpawnType == "O")
+        else if(_spawntype == "O")
         {
-            ToSpawn =  Instantiate (Resources.Load ("OObj")) as GameObject;
-          
+            ToSpawn =  Instantiate (Resources.Load ("OObj")) as GameObject; 
         }
 
         if(ToSpawn != null)
@@ -34,10 +40,15 @@ public class Zone : MonoBehaviour
             ToSpawn.SetActive(true);
         }
 
-        Singleton.Instance.ZoneDataUpdate(ZoneID);
-        
-        Singleton.Instance.CheckCondition();
-        Singleton.Instance.AlternateSpawn();
+
+        PlayManager _playmgr = PlayMgr.GetComponent<PlayManager>();
+
+        _playmgr.Moves ++;
+        _playmgr.ZoneDataUpdate(ZoneID);        
+        _playmgr.CheckCondition();
+        _playmgr.AlternateSpawn();
+
+        HasSpawned = true;
     }
 
 

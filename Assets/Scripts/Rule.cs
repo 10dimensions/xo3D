@@ -5,6 +5,7 @@ using UnityEngine;
 public class Rule
 {   
     public string SpawnString = "X";
+    public int Moves=0;
     public string[] ZoneData=new string[9];
     
 
@@ -46,7 +47,7 @@ public class Rule
             return true;
         }
 
-         else if(ZoneData[0]==SpawnString && ZoneData[4]==SpawnString && ZoneData[7]==SpawnString)
+         else if(ZoneData[0]==SpawnString && ZoneData[4]==SpawnString && ZoneData[8]==SpawnString)
         {
             return true;
         }
